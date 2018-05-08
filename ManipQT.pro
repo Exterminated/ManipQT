@@ -39,7 +39,8 @@ SOURCES += \
     alglib/solvers.cpp \
     alglib/specialfunctions.cpp \
     alglib/statistics.cpp \
-    manipcalculations.cpp
+    manipcalculations.cpp \
+    data_saver.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,11 @@ HEADERS += \
     alglib/specialfunctions.h \
     alglib/statistics.h \
     alglib/stdafx.h \
-    manipcalculations.h
+    manipcalculations.h \
+    data_saver.h
 
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+    resourses.qrc

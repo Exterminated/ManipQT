@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/icons" lang="rus">
+        <file>img/after-effects.png</file>
+        <file>img/ai.png</file>
+        <file>img/audition.png</file>
+        <file>img/avi.png</file>
+        <file>img/bridge.png</file>
+        <file>img/css.png</file>
+        <file>img/csv.png</file>
+        <file>img/dbf.png</file>
+        <file>img/doc.png</file>
+        <file>img/dreamweaver.png</file>
+        <file>img/dwg.png</file>
+        <file>img/exe.png</file>
+        <file>img/file.png</file>
+        <file>img/fireworks.png</file>
+        <file>img/fla.png</file>
+        <file>img/flash.png</file>
+        <file>img/html.png</file>
+        <file>img/illustrator.png</file>
+        <file>img/indesign.png</file>
+        <file>img/iso.png</file>
+        <file>img/javascript.png</file>
+        <file>img/jpg.png</file>
+        <file>img/json-file.png</file>
+        <file>img/mp3.png</file>
+        <file>img/mp4.png</file>
+        <file>img/pdf.png</file>
+        <file>img/photoshop.png</file>
+        <file>img/png.png</file>
+        <file>img/ppt.png</file>
+        <file>img/prelude.png</file>
+        <file>img/premiere.png</file>
+        <file>img/psd.png</file>
+        <file>img/rtf.png</file>
+        <file>img/search.png</file>
+        <file>img/svg.png</file>
+        <file>img/txt.png</file>
+        <file>img/xls.png</file>
+        <file>img/xml.png</file>
+        <file>img/zip.png</file>
+        <file>img/zip-1.png</file>
+    </qresource>
+</RCC>

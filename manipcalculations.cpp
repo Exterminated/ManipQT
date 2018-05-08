@@ -3,7 +3,7 @@
 
 // подключаем интерфейс класса к файлу его реализации
 ManipCalculations::ManipCalculations(){
-    qDebug()<<"New ManipCalculations object";
+    qDebug()<<"New empty ManipCalculations object";
 }
 ManipCalculations::ManipCalculations(double xb, double y_0, double za, double xc, double yb,  double zd, double O1A, double OA1, double l1, double l2, double l3, double OO1, double fi_angle, double l4,  double alpha, int alpha_0, int alpha_23, int alpha_13, int alpha_33, int b){
     qDebug()<<"New ManipCalculations object";
@@ -49,6 +49,8 @@ void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi
 
 }
 
+void ManipCalculations::openmp_calculations(){}
+
 void ManipCalculations::calculatuons() {
     real_1d_array x = "[0,0]";
     //double epsg = 0.0000000001;
@@ -60,19 +62,19 @@ void ManipCalculations::calculatuons() {
     minlmreport rep;
 
     //Исходные конструктивные данные
-    xb = 355.0;
-    y_0 = 755.0;
-    za = 750.0;
-    xc = -355.0;
-    yb = y_0;
-    zd = -40.0;
-    O1A = za;
-    OA1 = 750.0;
-    l1 = 1400.0;
-    l2 = 1500.0;
-    l3 = 1352.0;
-    fi_angle = 0.323;
-    OO1 = zd;
+//    xb = 355.0;
+//    y_0 = 755.0;
+//    za = 750.0;
+//    xc = -355.0;
+//    yb = y_0;
+//    zd = -40.0;
+//    O1A = za;
+//    OA1 = 750.0;
+//    l1 = 1400.0;
+//    l2 = 1500.0;
+//    l3 = 1352.0;
+//    fi_angle = 0.323;
+//    OO1 = zd;
 
     //Начальные координаты точки М и длина 4 звена
     l4 = sqrt((za*sin(M_PI_2 - fi_angle) - OO1)*(za*sin(M_PI_2 - fi_angle) - OO1) + (yb - za*cos(M_PI_2 - fi_angle))*(yb - za*cos(M_PI_2 - fi_angle)));
@@ -88,12 +90,12 @@ void ManipCalculations::calculatuons() {
     qDebug() << "zm0: " << zm0 ;
     qDebug() << "gamma0: " << gamma0 ;
     //Начальные координаты захвата E, направляющих косинусов, зависящих от тех.процесса
-    alpha_0 = 0;
-    alpha_23 = 1;
-    a = 90;
-    alpha_13 = 0;
-    alpha_33 = 0;
-    b = 220;
+//    alpha_0 = 0;
+//    alpha_23 = 1;
+//    a = 90;
+//    alpha_13 = 0;
+//    alpha_33 = 0;
+//    b = 220;
 
     xe0 = xm0 + b*alpha_13 - a*cos(alpha_0)*sin(gamma0);
     ye0 = ym0 + b*alpha_23 + a*cos(alpha_0)*cos(gamma0);

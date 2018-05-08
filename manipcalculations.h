@@ -35,6 +35,7 @@ class ManipCalculations
                     double OO1,double fi_angle,double l4, double alpha, int alpha_0, int alpha_23,
                     int alpha_13,int alpha_33, int b);
   void calculatuons();
+  void openmp_calculations();
   void setParams(double xb, double y_0,double za,double xc,double yb,
                  double zd, double O1A, double OA1, double l1, double l2, double l3,
                  double OO1,double fi_angle,double l4, double alpha, int alpha_0, int alpha_23,
