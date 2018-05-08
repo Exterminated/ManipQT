@@ -25,10 +25,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    alglib/alglibinternal.cpp \
+    alglib/alglibmisc.cpp \
+    alglib/ap.cpp \
+    alglib/dataanalysis.cpp \
+    alglib/diffequations.cpp \
+    alglib/fasttransforms.cpp \
+    alglib/integration.cpp \
+    alglib/interpolation.cpp \
+    alglib/linalg.cpp \
+    alglib/optimization.cpp \
+    alglib/solvers.cpp \
+    alglib/specialfunctions.cpp \
+    alglib/statistics.cpp \
+    manipcalculations.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    alglib/alglibinternal.h \
+    alglib/alglibmisc.h \
+    alglib/ap.h \
+    alglib/dataanalysis.h \
+    alglib/diffequations.h \
+    alglib/fasttransforms.h \
+    alglib/integration.h \
+    alglib/interpolation.h \
+    alglib/linalg.h \
+    alglib/optimization.h \
+    alglib/solvers.h \
+    alglib/specialfunctions.h \
+    alglib/statistics.h \
+    alglib/stdafx.h \
+    manipcalculations.h
 
 FORMS += \
         mainwindow.ui

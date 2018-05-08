@@ -10,6 +10,12 @@
     <height>347</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -221,7 +227,7 @@
       <string>Φ</string>
      </property>
     </widget>
-    <widget class="QDoubleSpinBox" name="doubleSpinBox_15">
+    <widget class="QDoubleSpinBox" name="fi_doubleSpinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -246,7 +252,7 @@
       <double>0.323000000000000</double>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox">
+    <widget class="QSpinBox" name="Xb_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -265,7 +271,7 @@
       <number>355</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_2">
+    <widget class="QSpinBox" name="Yb_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -284,7 +290,7 @@
       <number>755</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_3">
+    <widget class="QSpinBox" name="Za_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -303,7 +309,7 @@
       <number>750</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_4">
+    <widget class="QSpinBox" name="Zd_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -322,7 +328,7 @@
       <number>-40</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_5">
+    <widget class="QSpinBox" name="Xc_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -341,7 +347,7 @@
       <number>-355</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_6">
+    <widget class="QSpinBox" name="Yc_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -360,7 +366,7 @@
       <number>755</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_7">
+    <widget class="QSpinBox" name="Y0_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -379,7 +385,7 @@
       <number>755</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_8">
+    <widget class="QSpinBox" name="O1A_spinBox">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -489,7 +495,7 @@
       <string>α13</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_15">
+    <widget class="QSpinBox" name="alpha0_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -505,7 +511,7 @@
       <number>500</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_16">
+    <widget class="QSpinBox" name="alpha23_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -524,7 +530,7 @@
       <number>1</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_17">
+    <widget class="QSpinBox" name="alpha_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -543,7 +549,7 @@
       <number>90</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_18">
+    <widget class="QSpinBox" name="alpha13_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -559,7 +565,7 @@
       <number>500</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_19">
+    <widget class="QSpinBox" name="alpha33_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -575,7 +581,7 @@
       <number>500</number>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_20">
+    <widget class="QSpinBox" name="b_spinBox">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -595,7 +601,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QSpinBox" name="spinBox_9">
+   <widget class="QSpinBox" name="OA1_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -614,7 +620,7 @@
      <number>750</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_10">
+   <widget class="QSpinBox" name="O01_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -633,7 +639,7 @@
      <number>-40</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_11">
+   <widget class="QSpinBox" name="l1_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -652,7 +658,7 @@
      <number>1400</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_12">
+   <widget class="QSpinBox" name="l2_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -671,7 +677,7 @@
      <number>1500</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_13">
+   <widget class="QSpinBox" name="l3_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -690,7 +696,7 @@
      <number>1352</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_14">
+   <widget class="QSpinBox" name="l4_spinBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -721,7 +727,7 @@
     <property name="title">
      <string>Результаты</string>
     </property>
-    <widget class="QTextBrowser" name="textBrowser">
+    <widget class="QTextBrowser" name="Result_textBrowser">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -744,7 +750,7 @@
     <property name="title">
      <string>Режим</string>
     </property>
-    <widget class="QRadioButton" name="radioButton">
+    <widget class="QRadioButton" name="Usual_radioButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -760,7 +766,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButton_2">
+    <widget class="QRadioButton" name="OMP_radioButton">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -774,7 +780,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Calculate_pushButton">
     <property name="geometry">
      <rect>
       <x>490</x>
