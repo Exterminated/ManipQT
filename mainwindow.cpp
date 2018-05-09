@@ -75,7 +75,7 @@ void MainWindow::file_save(){
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_5_10);
         //Получить данные из data_saver
-        out<<"Test strin";
+        out<<"Test string";
     }
     else{
         QMessageBox::information(this,"Unable to open file","File name dose not set");

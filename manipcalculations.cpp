@@ -37,18 +37,6 @@ void ManipCalculations::setParams(double xb, double y_0, double za, double xc, d
 
     }
 
-void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
-{
-    // this callback calculates
-
-    fi[0] = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0);
-    fi[1] = pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0);
-
-    //fi[0] = 10 * pow(x[0] + 3, 2);
-    //fi[1] = pow(x[1] - 3, 2);
-
-}
-
 void ManipCalculations::openmp_calculations(){}
 
 void ManipCalculations::calculatuons() {
@@ -145,8 +133,44 @@ void ManipCalculations::calculatuons() {
 
     //Imin = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi))*(ymk + OA1*sin(fi)) + ((zmk - OA1*cos(fi))*(zmk - OA1*cos(fi))))) - l1), 2.0) + pow((sqrt((OK - OA1*sin(fi))*(OK - OA1*sin(fi)) + (OA1*cos(fi) - DK)*(OA1*cos(fi) - DK)) - l4), 2.0);
 
-    qDebug() <<"terminationtype: "<< int(rep.terminationtype);
-    qDebug() <<"x: "<< x.tostring(2).c_str();
+//    qDebug() <<"terminationtype: "<< int(rep.terminationtype);
+//    qDebug() <<"x: "<< x.tostring(2).c_str();
+
+    double fi[2] = {
+        (double)pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0),
+        (double)pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0)
+    };
+
+    //fi_angle = RungeKutta4(0.0,0.0,1,(fi[0],fi[1]));
+    qDebug()<<"fi angle"<<fi_angle;
 
     _getch();
+}
+void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
+{
+    // this callback calculates
+
+    fi[0] = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0);
+    fi[1] = pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0);
+
+    //fi[0] = 10 * pow(x[0] + 3, 2);
+    //fi[1] = pow(x[1] - 3, 2);
+
+}
+//***************************************************************
+
+            //** Метод Рунге-Кутта 4-го порядка точности.
+            //** Параметры: x,y - типа float,
+            //**            h   - шаг,
+            //**            f   - функция сорж. диф. уравнение.
+
+double ManipCalculations::RungeKutta4(double x, double y,double h,double f(double,double))
+{
+  double k1,k2,k3,k4;
+
+  k1=h*f(x,y);
+  k2=h*f(x+h/2.0,y+k1/2.0);
+  k3=h*f(x+h/2.0,y+k2/2.0);
+  k4=h*f(x+h,y+k3);
+  return(y+(k1+2*k2+2*k3+k4)/6);
 }
