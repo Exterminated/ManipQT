@@ -136,13 +136,12 @@ void ManipCalculations::calculatuons() {
 //    qDebug() <<"terminationtype: "<< int(rep.terminationtype);
 //    qDebug() <<"x: "<< x.tostring(2).c_str();
 
-    double fi[2] = {
-        (double)pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0),
-        (double)pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0)
-    };
+
 
     //fi_angle = RungeKutta4(0.0,0.0,1,(fi[0],fi[1]));
     qDebug()<<"fi angle"<<fi_angle;
+    //expected 0.072
+    qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
 
     _getch();
 }
@@ -173,4 +172,17 @@ double ManipCalculations::RungeKutta4(double x, double y,double h,double f(doubl
   k3=h*f(x+h/2.0,y+k2/2.0);
   k4=h*f(x+h,y+k3);
   return(y+(k1+2*k2+2*k3+k4)/6);
+}
+
+double ManipCalculations::f(double x, double y){
+//    double fi[2] = {
+//        (double)pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0),
+//        (double)pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0)
+//    };
+    double denominator_1, numerator_1, denominator_2, numerator_2;
+    denominator_1 = (2.0*OA1*cos(fi_angle)*(ymk+OA1*sin(fi_angle))+2.0*OA1*sin(fi_angle)*(zmk-OA1*cos(fi_angle)))*(l1-sqrt(pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0)));
+    numerator_1 = sqrt(pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0)+xmk*xmk);
+    denominator_2 = (l4-sqrt(pow(DK-OA1*cos(fi_angle),2.0)+pow(OK-OA1*sin(fi_angle),2.0)))*(2*OA1*sin(fi_angle)*(DK-OA1*cos(fi_angle))-2.0*OA1*cos(fi_angle)*(OK-OA1*sin(fi_angle)));
+    numerator_2 = sqrt(pow(DK-OA1*cos(fi_angle),2.0)+pow(OK-OA1*sin(fi_angle),2.0));
+    return (denominator_1/numerator_1)+(denominator_2/numerator_2);
 }

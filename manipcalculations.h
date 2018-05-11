@@ -27,6 +27,7 @@ class ManipCalculations
   int alpha_0, alpha_23, a, alpha_13, alpha_33, b;
   double OK, OA, OB, DK, Imin;
   double RungeKutta4(double x, double y,double h,double f(double,double));
+  double f(double x, double y);
 
   public:
   /* список методов доступных другим функциям и объектам программы */
