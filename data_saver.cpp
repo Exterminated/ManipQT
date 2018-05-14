@@ -10,7 +10,12 @@ void Data_Saver::save_file(bool type){
     //false - txt
     //true - xml
     //TODO: придумать как реализовать сохранение файла, чтобы окно выбора всплывало только один раз
+    if(type){
 
+    }
+    else{
+
+    }
 }
 void Data_Saver::set_filename(QString filename){
     this->filename=filename;
@@ -18,3 +23,4 @@ void Data_Saver::set_filename(QString filename){
 QString Data_Saver::get_filename(){
     return filename;
 }
+

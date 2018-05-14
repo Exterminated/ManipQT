@@ -37,6 +37,22 @@ void ManipCalculations::setParams(double xb, double y_0, double za, double xc, d
 
     }
 
+void ManipCalculations::set_lk(double l1k, double l2k, double l3k, double l4k){
+    this->lk[]={l1k,l2k,l3k,l4k};
+}
+
+double *ManipCalculations::get_lk(){
+    return this->lk;
+}
+
+void ManipCalculations::set_T(double T1, double T2, double T3, double T4){
+    this->T[]={T1,T2,T3,T4};
+}
+
+double *ManipCalculations::get_T(){
+    return this->T;
+}
+
 void ManipCalculations::openmp_calculations(){}
 
 void ManipCalculations::calculatuons() {
@@ -142,6 +158,8 @@ void ManipCalculations::calculatuons() {
     qDebug()<<"fi angle"<<fi_angle;
     //expected 0.072
     qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
+
+
 
     _getch();
 }

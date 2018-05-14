@@ -28,6 +28,8 @@ class ManipCalculations
   double OK, OA, OB, DK, Imin;
   double RungeKutta4(double x, double y,double h,double f(double,double));
   double f(double x, double y);
+  double lk [];
+  double T [];
 
   public:
   /* список методов доступных другим функциям и объектам программы */
@@ -42,6 +44,10 @@ class ManipCalculations
                  double zd, double O1A, double OA1, double l1, double l2, double l3,
                  double OO1,double fi_angle,double l4, double alpha, int alpha_0, int alpha_23,
                  int alpha_13,int alpha_33, int b);
+  void set_lk(double l1k, double l2k, double l3k, double l4k);
+  double *get_lk();
+  void set_T(double T1, double T2, double T3, double T4);
+  double *get_T();
 
   protected:
   /*список средств, доступных при наследовании*/
