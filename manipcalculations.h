@@ -30,6 +30,7 @@ class ManipCalculations
   double f(double x, double y);
   double lk [];
   double T [];
+  double Vmax = 25.0;
 
   public:
   /* список методов доступных другим функциям и объектам программы */
@@ -48,6 +49,7 @@ class ManipCalculations
   double *get_lk();
   void set_T(double T1, double T2, double T3, double T4);
   double *get_T();
+  void quickSortR(double* a, int N);
 
   protected:
   /*список средств, доступных при наследовании*/

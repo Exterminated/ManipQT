@@ -38,7 +38,10 @@ void ManipCalculations::setParams(double xb, double y_0, double za, double xc, d
     }
 
 void ManipCalculations::set_lk(double l1k, double l2k, double l3k, double l4k){
-    this->lk[]={l1k,l2k,l3k,l4k};
+    this->lk[0]=l1k;
+    this->lk[1]=l2k;
+    this->lk[2]=l3k;
+    this->lk[3]=l4k;
 }
 
 double *ManipCalculations::get_lk(){
@@ -46,7 +49,10 @@ double *ManipCalculations::get_lk(){
 }
 
 void ManipCalculations::set_T(double T1, double T2, double T3, double T4){
-    this->T[]={T1,T2,T3,T4};
+    this->T[0]=T1;
+    this->T[1]=T2;
+    this->T[2]=T3;
+    this->T[3]=T4;
 }
 
 double *ManipCalculations::get_T(){
@@ -159,9 +165,83 @@ void ManipCalculations::calculatuons() {
     //expected 0.072
     qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
 
+    //рассчет времени
+//    OA=za;
+//    OB=xb;
+//    OK=y_0;
+//    DK=zd;
+//    OA1=za;
 
+//    double dxe = xek-xe0;
+//    double dye = yek-ye0;
+//    double dze = zek-ze0;
 
+//    double k1e = dye/dxe;
+//    double k2e = dze/dxe;
+//    double k3e = dze/dye;
+
+//    qDebug()<< "k1e "<<k1e;
+//    qDebug()<< "k2e "<<k2e;
+//    qDebug()<<"k3e "<<k3e;
+
+//    double kxe = sqrt(1+k1e*k1e+k2e*k2e);
+//    double kye = sqrt(1+(1/k1e)*(1/k1e)+k3e*k3e);
+//    double kze = sqrt(1+(1/k2e)*(1/k2e)+(1/k3e)*(1/k3e));
+
+//    qDebug()<<"D = "<<((1/(kxe*kxe))+(1/(kye*kye))+(1/(kze*kze)))<<"; Should be 1";
+
+//    double Skxe = sqrt(1+k1e*k1e+k2e*k2e)*(xek-xe0);
+//    double Skye = sqrt(1+((1/(k1e*k1e))+(k3e*k3e)))*(yek-ye0);
+//    double Skze = sqrt(1+((1/(k1e*k1e))+(1/(k3e*k3e))))*(zek-ze0);
+
+//    qDebug()<<"Skxe: "<<Skxe;
+//    qDebug()<<"Skye: "<<Skye;
+//    qDebug()<<"Skze: "<<Skze;
+
+    //Se: 0 - x; 1 - y; 2 - z;
+//    double Sxe [3] = {};
+//    double Sye [3] = {};
+//    double Sze [3] = {};
+
+//    double XeT [3] = {};
+//    double YeT [3] = {};
+//    double ZeT [3] = {};
+//    double tau
+//    for(int i=0;i<3;i++){
+//        Sxe[i]=Skxe*(10*pow(i/Tlk))
+//    }
+
+    //рассчет lk
+    double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
+    double l2k = sqrt((xmk-xb)*(xmk-xb)+ymk*ymk+zmk*zmk);
+    double l3k = sqrt((xmk+xb)*(xmk*xb)+ymk*ymk+zmk*zmk);
+    double l4k = sqrt(pow(OK-OA*sin(fi_angle),2.0)+pow(OA*cos(fi_angle)-DK,2.0));
+    this->set_lk(l1k,l2k,l3k,l4k);
+
+    //Рассчет времени
+    double T[4] ={ abs(l1k-l1)/Vmax, abs(l2k-l2)/Vmax, abs(l3k-l3)/Vmax, abs(l4k-l4)/Vmax};
+    double Tlk =
     _getch();
+}
+void ManipCalculations::quickSortR(double* a, int N){
+    int i = 0, j= N-1;
+    double temp, p;
+    p=a[N>>1];
+    do
+    {
+        while(a[i]<p) i++;
+           while(a[i]>p)j--;
+
+           if(i<=j)
+        {
+           temp=a[i];
+           a[i]=a[j];
+           a[j]=temp;
+           i++;j--;
+        }
+    }while (i<=j);
+    if(j>0) ManipCalculations::quickSortR(a,j);
+    if(N>i)ManipCalculations::quickSortR(a+i,N-i);
 }
 void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
 {
