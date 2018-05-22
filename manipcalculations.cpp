@@ -44,21 +44,6 @@ void ManipCalculations::set_lk(double l1k, double l2k, double l3k, double l4k){
     this->lk[3]=l4k;
 }
 
-double *ManipCalculations::get_lk(){
-    return this->lk;
-}
-
-void ManipCalculations::set_T(double T1, double T2, double T3, double T4){
-    this->T[0]=T1;
-    this->T[1]=T2;
-    this->T[2]=T3;
-    this->T[3]=T4;
-}
-
-double *ManipCalculations::get_T(){
-    return this->T;
-}
-
 void ManipCalculations::openmp_calculations(){}
 
 void ManipCalculations::calculatuons() {
@@ -165,51 +150,6 @@ void ManipCalculations::calculatuons() {
     //expected 0.072
     qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
 
-    //рассчет времени
-//    OA=za;
-//    OB=xb;
-//    OK=y_0;
-//    DK=zd;
-//    OA1=za;
-
-//    double dxe = xek-xe0;
-//    double dye = yek-ye0;
-//    double dze = zek-ze0;
-
-//    double k1e = dye/dxe;
-//    double k2e = dze/dxe;
-//    double k3e = dze/dye;
-
-//    qDebug()<< "k1e "<<k1e;
-//    qDebug()<< "k2e "<<k2e;
-//    qDebug()<<"k3e "<<k3e;
-
-//    double kxe = sqrt(1+k1e*k1e+k2e*k2e);
-//    double kye = sqrt(1+(1/k1e)*(1/k1e)+k3e*k3e);
-//    double kze = sqrt(1+(1/k2e)*(1/k2e)+(1/k3e)*(1/k3e));
-
-//    qDebug()<<"D = "<<((1/(kxe*kxe))+(1/(kye*kye))+(1/(kze*kze)))<<"; Should be 1";
-
-//    double Skxe = sqrt(1+k1e*k1e+k2e*k2e)*(xek-xe0);
-//    double Skye = sqrt(1+((1/(k1e*k1e))+(k3e*k3e)))*(yek-ye0);
-//    double Skze = sqrt(1+((1/(k1e*k1e))+(1/(k3e*k3e))))*(zek-ze0);
-
-//    qDebug()<<"Skxe: "<<Skxe;
-//    qDebug()<<"Skye: "<<Skye;
-//    qDebug()<<"Skze: "<<Skze;
-
-    //Se: 0 - x; 1 - y; 2 - z;
-//    double Sxe [3] = {};
-//    double Sye [3] = {};
-//    double Sze [3] = {};
-
-//    double XeT [3] = {};
-//    double YeT [3] = {};
-//    double ZeT [3] = {};
-//    double tau
-//    for(int i=0;i<3;i++){
-//        Sxe[i]=Skxe*(10*pow(i/Tlk))
-//    }
 
     //рассчет lk
     double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
@@ -218,12 +158,80 @@ void ManipCalculations::calculatuons() {
     double l4k = sqrt(pow(OK-OA*sin(fi_angle),2.0)+pow(OA*cos(fi_angle)-DK,2.0));
     this->set_lk(l1k,l2k,l3k,l4k);
 
-    //Рассчет времени
-    double T[4] ={ abs(l1k-l1)/Vmax, abs(l2k-l2)/Vmax, abs(l3k-l3)/Vmax, abs(l4k-l4)/Vmax};
-    double Tlk =
+    //Рассчет времени   
+    ptrTime[0] = abs(l1k-l1)/Vmax;
+    ptrTime[1] = abs(l2k-l2)/Vmax;
+    ptrTime[2] = abs(l3k-l3)/Vmax;
+    ptrTime[3] = abs(l4k-l4)/Vmax;
+    double Tlk = ManipCalculations::findMax(ptrTime,4);
+
+    qDebug()<<"Max time is "<<Tlk;
+
+    //рассчет координат
+//    OA=za;
+//    OB=xb;
+//    OK=y_0;
+//    DK=zd;
+//    OA1=za;
+
+    double dx = xmk-xm0;
+    double dy = ymk-ym0;
+    double dz = zmk-zm0;
+
+    double k1 = dy/dx;
+    double k2 = dz/dx;
+    double k3 = dz/dy;
+
+    qDebug()<< "k1 "<<k1;
+    qDebug()<< "k2 "<<k2;
+    qDebug()<<"k3 "<<k3;
+
+    double kx = sqrt(1+k1*k1+k2*k2);
+    double ky = sqrt(1+(1/k1)*(1/k1)+k3*k3);
+    double kz = sqrt(1+(1/k2)*(1/k2)+(1/k3)*(1/k3));
+
+    qDebug()<<"D = "<<((1/(kx*kx))+(1/(ky*ky))+(1/(kz*kz)))<<"; Should be 1";
+
+    double Skx = sqrt(1+k1*k1+k2*k2)*(xmk-xm0);
+    double Sky = sqrt(1+((1/(k1*k1))+(k3*k3)))*(ymk-ym0);
+    double Skz = sqrt(1+((1/(k1*k1))+(1/(k3*k3))))*(zmk-zm0);
+
+    qDebug()<<"Skx: "<<Skx;
+    qDebug()<<"Sky: "<<Sky;
+    qDebug()<<"Skz: "<<Skz;
+
+    //Se: 0 - x; 1 - y; 2 - z;
+    double Sx [4] = {};
+    double Sy [4] = {};
+    double Sz [4] = {};
+
+//    double *xp = XP;
+//    double *yp = YP;
+//    double *zp = ZP;
+    double tau [4] = {};
+
+    for(int i = 0; i<4;i++){
+        tau[i]=i/Tlk;
+        qDebug<"tau = ".<<tau[i];
+    }
+
+    for(int i=0;i<4;i++){
+        Sx[i]=Skx*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+        Sy[i]=Sky*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+        Sz[i]=Skz*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+        //---------------------------//
+        ptrXP[i]=(Sx[i]+xm0*kx)/kx;
+        ptrYP[i]=(Sy[i]+ym0*ky)/ky;
+        ptrZP[i]=(Sz[i]+zm0*kz)/kz;
+
+        qDebug()<<"X["<<i<<"]: "<<ptrXP[i];
+        qDebug()<<"Y["<<i<<"]: "<<ptrYP[i];
+        qDebug()<<"Z["<<i<<"]: "<<ptrZP[i];
+    }
+
     _getch();
 }
-void ManipCalculations::quickSortR(double* a, int N){
+void ManipCalculations::quickSortR(double *a, int N){
     int i = 0, j= N-1;
     double temp, p;
     p=a[N>>1];
@@ -242,6 +250,13 @@ void ManipCalculations::quickSortR(double* a, int N){
     }while (i<=j);
     if(j>0) ManipCalculations::quickSortR(a,j);
     if(N>i)ManipCalculations::quickSortR(a+i,N-i);
+}
+double ManipCalculations::findMax(double* a, int N){
+    double max = 0.0;
+    for(int i=0;i<0;i++){
+        if(a[i]>max) max=a[i];
+    }
+    return max;
 }
 void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
 {

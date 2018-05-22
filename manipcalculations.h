@@ -26,10 +26,16 @@ class ManipCalculations
   double xmk, ymk, zmk, xek, yek, zek;
   int alpha_0, alpha_23, a, alpha_13, alpha_33, b;
   double OK, OA, OB, DK, Imin;
+
   double RungeKutta4(double x, double y,double h,double f(double,double));
   double f(double x, double y);
-  double lk [];
-  double T [];
+
+  double lk[4];
+  double Time[4];
+  double XP[4];
+  double YP[4];
+  double ZP[4];
+
   double Vmax = 25.0;
 
   public:
@@ -47,9 +53,14 @@ class ManipCalculations
                  int alpha_13,int alpha_33, int b);
   void set_lk(double l1k, double l2k, double l3k, double l4k);
   double *get_lk();
-  void set_T(double T1, double T2, double T3, double T4);
-  double *get_T();
+
   void quickSortR(double* a, int N);
+  double findMax(double* a, int N);
+
+  double *ptrTime = Time;
+  double *ptrXP = XP;
+  double *ptrYP = YP;
+  double *ptrZP = ZP;
 
   protected:
   /*список средств, доступных при наследовании*/
