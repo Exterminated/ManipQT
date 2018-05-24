@@ -212,7 +212,7 @@ void ManipCalculations::calculatuons() {
 
     for(int i = 0; i<4;i++){
         tau[i]=i/Tlk;
-        qDebug<"tau = ".<<tau[i];
+        //qDebug<"tau = "<<tau[i];
     }
 
     for(int i=0;i<4;i++){

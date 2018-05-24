@@ -5,6 +5,7 @@
 #include<QFileDialog>
 
 #include "data_saver.h"
+#include "manipcalculations.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +29,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void menue_visible(bool flag);
-    void file_save();
+    void file_save(bool type);
+    ManipCalculations manipcalculations;
 
     Data_Saver data_saver;
 

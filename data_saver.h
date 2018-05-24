@@ -3,11 +3,20 @@
 
 #include <QString>
 
+#include<QFileDialog>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QXmlStreamAttribute>
+#include <QMessageBox>
+#include <QFile>
+
+#include "manipcalculations.h"
+
 class Data_Saver
 {
 public:
     Data_Saver();
-    void save_file(bool type);
+    QString get_data(bool type, ManipCalculations item, QFile file);
     void set_filename(QString filename);
     QString get_filename();
 private:
