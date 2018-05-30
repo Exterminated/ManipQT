@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QMessageBox>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -129,5 +127,11 @@ void MainWindow::file_save(bool type){
 
 void MainWindow::on_action_OpenMP_triggered()
 {
-    OMP_Settings_Dialog dia = new OMP_Settings_Dialog();
+
+//    QDialog settings_dialog = new QDialog();
+//    settings_dialog = ui("omp_settings.ui",ui.TYPEDIALOG);
+//    int result = settings_dialog.show(1);
+    omp_settings settings;
+    settings.setModal(true);
+    settings.exec();
 }

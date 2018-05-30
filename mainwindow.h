@@ -2,11 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include<QFileDialog>
+#include <QFileDialog>
 #include <QDialog>
+#include <QWidget>
+#include <QMessageBox>
 
 #include "data_saver.h"
 #include "manipcalculations.h"
+#include "omp_settings.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,5 +41,4 @@ private:
     Data_Saver data_saver;
 
 };
-
 #endif // MAINWINDOW_H

@@ -40,7 +40,8 @@ SOURCES += \
     alglib/specialfunctions.cpp \
     alglib/statistics.cpp \
     manipcalculations.cpp \
-    data_saver.cpp
+    data_saver.cpp \
+    omp_settings.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -59,7 +60,8 @@ HEADERS += \
     alglib/statistics.h \
     alglib/stdafx.h \
     manipcalculations.h \
-    data_saver.h
+    data_saver.h \
+    omp_settings.h
 
 FORMS += \
         mainwindow.ui \
