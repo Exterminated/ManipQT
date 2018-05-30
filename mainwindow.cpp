@@ -45,7 +45,8 @@ void MainWindow::on_Calculate_pushButton_clicked()
                 ui->alpha13_spinBox->value(),
                 ui->alpha33_spinBox->value(),
                 ui->b_spinBox->value());
-    manipcalculations.calculatuons();
+    if(ui->Usual_radioButton->isChecked()) manipcalculations.calculatuons();
+    if(ui->OMP_radioButton->isChecked()) manipcalculations.openmp_calculations();
     menue_visible(true);
 }
 
@@ -124,4 +125,9 @@ void MainWindow::file_save(bool type){
         QMessageBox::information(this,"Unable to open file","File name dose not set");
     }
 
+}
+
+void MainWindow::on_action_OpenMP_triggered()
+{
+    OMP_Settings_Dialog dia = new OMP_Settings_Dialog();
 }

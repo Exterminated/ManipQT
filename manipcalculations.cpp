@@ -44,7 +44,18 @@ void ManipCalculations::set_lk(double l1k, double l2k, double l3k, double l4k){
     this->lk[3]=l4k;
 }
 
-void ManipCalculations::openmp_calculations(){}
+void ManipCalculations::openmp_calculations(){
+    omp_set_dynamic(0);
+    omp_set_num_threads(4);
+    omp_set_nested(3);
+
+    #if defined(_OPENMP)
+        qWarning("Compiled by an OpenMP-compliant implementation.\n");
+        qWarning("The result of omp_get_num_threads %i\n", omp_get_num_threads());
+    #endif
+    #pragma omp parallel
+       printf("Hello, world.\n");
+}
 
 void ManipCalculations::calculatuons() {
     real_1d_array x = "[0,0]";

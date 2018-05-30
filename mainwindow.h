@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include<QFileDialog>
+#include <QDialog>
 
 #include "data_saver.h"
 #include "manipcalculations.h"
@@ -25,6 +26,8 @@ private slots:
     void on_actionTXT_triggered();
 
     void on_actionXML_triggered();
+
+    void on_action_OpenMP_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -62,7 +62,12 @@ HEADERS += \
     data_saver.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    omp_settings.ui
 
 RESOURCES += \
     resourses.qrc
+#need add in QMake build arguments "QMAKE_LIBS+=-static -lgomp -lpthread" "QMAKE_CXXFLAGS+=-fopenmp"
+QMAKE_LIBS+=-static -lgomp -lpthread
+QMAKE_CXXFLAGS+=-fopenmp
+QMAKE_LFLAGS += -fopenmp

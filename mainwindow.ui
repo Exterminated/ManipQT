@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>737</width>
-    <height>347</height>
+    <height>359</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -819,7 +819,14 @@
     </widget>
     <addaction name="Export_menu"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <addaction name="action_OpenMP"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -830,30 +837,40 @@
    </attribute>
    <addaction name="actionTXT"/>
    <addaction name="actionXML"/>
+   <addaction name="action_OpenMP"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionTXT">
    <property name="icon">
     <iconset resource="resourses.qrc">
-     <normaloff>:/icons/img/txt.png</normaloff>:/icons/img/txt.png</iconset>
+     <normaloff>:/img/img/txt.png</normaloff>:/img/img/txt.png</iconset>
    </property>
    <property name="text">
     <string>TXT</string>
    </property>
    <property name="toolTip">
-    <string>Exports calculation results in TXT</string>
+    <string>Сохранение результатов в TXT</string>
    </property>
   </action>
   <action name="actionXML">
    <property name="icon">
     <iconset resource="resourses.qrc">
-     <normaloff>:/icons/img/xml.png</normaloff>:/icons/img/xml.png</iconset>
+     <normaloff>:/img/img/xml.png</normaloff>:/img/img/xml.png</iconset>
    </property>
    <property name="text">
     <string>XML</string>
    </property>
    <property name="toolTip">
-    <string>Exports calculation results in XML</string>
+    <string>Сохранение результатов в XML</string>
+   </property>
+  </action>
+  <action name="action_OpenMP">
+   <property name="icon">
+    <iconset resource="resourses.qrc">
+     <normaloff>:/img/img/settings.png</normaloff>:/img/img/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Настройки OpenMP..</string>
    </property>
   </action>
  </widget>

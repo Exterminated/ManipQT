@@ -11,6 +11,7 @@
 #include <conio.h>
 #include <iostream>
 #include <QDebug>
+#include <omp.h>
 
 using namespace std;
 using namespace alglib;
