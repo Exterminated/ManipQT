@@ -8,6 +8,7 @@
 
 #include "alglib\optimization.h"
 #include "cmath"
+#include "omp_settings.h"
 #include <conio.h>
 #include <iostream>
 #include <QDebug>
@@ -38,6 +39,7 @@ class ManipCalculations
   double ZP[4];
 
   double Vmax = 25.0;
+  int ptrsettings[3];
 
   public:
   /* список методов доступных другим функциям и объектам программы */
@@ -57,6 +59,8 @@ class ManipCalculations
 
   void quickSortR(double* a, int N);
   double findMax(double* a, int N);
+
+  void set_omp_settings(int num,int dynamic, int deapth);
 
   double *ptrTime = Time;
   double *ptrXP = XP;

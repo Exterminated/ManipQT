@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    omp_settings settings;
 
 private slots:
     void on_Calculate_pushButton_clicked();

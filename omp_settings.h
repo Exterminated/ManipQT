@@ -14,9 +14,18 @@ class omp_settings : public QDialog
 public:
     explicit omp_settings(QWidget *parent = 0);
     ~omp_settings();
+    int num_threads;
+    int deapth;
+    int dynamic;
+
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
 
 private:
     Ui::omp_settings *ui;
+    void set_saved_settings();
 };
 
 #endif // OMP_SETTINGS_H

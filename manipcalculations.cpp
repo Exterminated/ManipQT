@@ -7,6 +7,7 @@ ManipCalculations::ManipCalculations(){
 }
 ManipCalculations::ManipCalculations(double xb, double y_0, double za, double xc, double yb,  double zd, double O1A, double OA1, double l1, double l2, double l3, double OO1, double fi_angle, double l4,  double alpha, int alpha_0, int alpha_23, int alpha_13, int alpha_33, int b){
     qDebug()<<"New ManipCalculations object";
+
     setParams(xb, y_0, za, xc, yb, zd, O1A, OA1, l1, l2, l3, OO1, fi_angle, l4, alpha, alpha_0, alpha_23, alpha_13, alpha_33, b);
 
 }
@@ -43,11 +44,15 @@ void ManipCalculations::set_lk(double l1k, double l2k, double l3k, double l4k){
     this->lk[2]=l3k;
     this->lk[3]=l4k;
 }
-
+void ManipCalculations::set_omp_settings(int num,int dynamic,int deapth){
+    this->ptrsettings[0]=num;
+    this->ptrsettings[1]=dynamic;
+    this->ptrsettings[2]=deapth;
+}
 void ManipCalculations::openmp_calculations(){
-    omp_set_dynamic(0);
-    omp_set_num_threads(4);
-    omp_set_nested(3);
+    omp_set_dynamic(ptrsettings[1]);
+    omp_set_num_threads(ptrsettings[0]);
+    omp_set_nested(ptrsettings[2]);
 
     #if defined(_OPENMP)
         qWarning("Compiled by an OpenMP-compliant implementation.\n");
@@ -160,6 +165,7 @@ void ManipCalculations::calculatuons() {
     qDebug()<<"fi angle"<<fi_angle;
     //expected 0.072
     qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
+    fi_angle=0.072;
 
 
     //рассчет lk
@@ -222,7 +228,7 @@ void ManipCalculations::calculatuons() {
     double tau [4] = {};
 
     for(int i = 0; i<4;i++){
-        tau[i]=i/Tlk;
+        tau[i]=(i+1)/Tlk;
         //qDebug<"tau = "<<tau[i];
     }
 

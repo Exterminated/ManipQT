@@ -44,23 +44,26 @@ void MainWindow::on_Calculate_pushButton_clicked()
                 ui->alpha33_spinBox->value(),
                 ui->b_spinBox->value());
     if(ui->Usual_radioButton->isChecked()) manipcalculations.calculatuons();
-    if(ui->OMP_radioButton->isChecked()) manipcalculations.openmp_calculations();
+    if(ui->OMP_radioButton->isChecked()) {
+        manipcalculations.set_omp_settings(settings.num_threads,settings.dynamic,settings.deapth);
+        manipcalculations.openmp_calculations();
+    }
     menue_visible(true);
 }
 
 void MainWindow::on_actionTXT_triggered()
 {
-    if(data_saver.get_filename().isEmpty()){
+    //if(data_saver.get_filename().isEmpty()){
     data_saver.set_filename(QFileDialog::getSaveFileName(this,"File save","","Text file|txt")+".txt");
-    }
+    //}
     file_save(false);
 }
 
 void MainWindow::on_actionXML_triggered()
 {
-    if(data_saver.get_filename().isEmpty()){
+    //if(data_saver.get_filename().isEmpty()){
     data_saver.set_filename(QFileDialog::getSaveFileName(this,"File save","","XML files|xml")+".xml");
-    }
+    //}
     file_save(true);
 }
 
@@ -126,12 +129,10 @@ void MainWindow::file_save(bool type){
 }
 
 void MainWindow::on_action_OpenMP_triggered()
-{
-
-//    QDialog settings_dialog = new QDialog();
-//    settings_dialog = ui("omp_settings.ui",ui.TYPEDIALOG);
-//    int result = settings_dialog.show(1);
-    omp_settings settings;
+{    
     settings.setModal(true);
     settings.exec();
+    qDebug()<<"Threads"<<settings.num_threads;
+    qDebug()<<"Deapth"<<settings.deapth;
+    qDebug()<<"Dynamic"<<settings.dynamic;
 }
