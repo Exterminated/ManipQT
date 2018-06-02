@@ -54,12 +54,149 @@ void ManipCalculations::openmp_calculations(){
     omp_set_num_threads(ptrsettings[0]);
     omp_set_nested(ptrsettings[2]);
 
+    double Sx [4] = {};
+    double Sy [4] = {};
+    double Sz [4] = {};
+
+    double tau [4] = {};
+
     #if defined(_OPENMP)
         qWarning("Compiled by an OpenMP-compliant implementation.\n");
         qWarning("The result of omp_get_num_threads %i\n", omp_get_num_threads());
     #endif
-    #pragma omp parallel
-       printf("Hello, world.\n");
+
+#pragma omp parallel{}
+        //Начальные координаты точки М и длина 4 звена
+        l4 = sqrt((za*sin(M_PI_2 - fi_angle) - OO1)*(za*sin(M_PI_2 - fi_angle) - OO1) + (yb - za*cos(M_PI_2 - fi_angle))*(yb - za*cos(M_PI_2 - fi_angle)));
+        A = 0.5*l2*l2 + 0.5*l3*l3 - l1*l1;
+        xm0 = (l3*l3 - l2*l2) / (4 * xb);
+        ym0 = sqrt((l1*l1) - (((l3*l3 - l2*l2)*(l3*l3 - l2*l2)) / (16 * xb * xb)) - (((A - xb*xb - za*za)*(A - xb*xb - za*za)) / (4 * za*za)))*cos(fi_angle) - ((A - xb*xb + za*za) / (2 * za))*sin(fi_angle);
+        zm0 = sqrt((l1*l1) - (((l3*l3 - l2*l2)*(l3*l3 - l2*l2)) / (16 * xb * xb)) - (((A - xb*xb - za*za)*(A - xb*xb - za*za)) / (4 * za*za)))*sin(fi_angle) + ((A - xb*xb + za*za) / (2 * za))*cos(fi_angle);
+        gamma0 = atan((-1 * xm0) / (ym0 + OA1*sin(fi_angle)));
+        qDebug() << "l4: " << l4 ;
+        qDebug() << "A: " << A ;
+        qDebug() << "xm0: " << xm0 ;
+        qDebug() << "ym0: " << ym0 ;
+        qDebug() << "zm0: " << zm0 ;
+        qDebug() << "gamma0: " << gamma0 ;
+
+        //Начальные координаты захвата E, направляющих косинусов, зависящих от тех.процесса
+        xe0 = xm0 + b*alpha_13 - a*cos(alpha_0)*sin(gamma0);
+        ye0 = ym0 + b*alpha_23 + a*cos(alpha_0)*cos(gamma0);
+        ze0 = zm0 + b*alpha_33 + a*sin(alpha_0);
+
+        qDebug() << "xe0: " << xe0 ;
+        qDebug() << "ye0: " << ye0 ;
+        qDebug() << "ze0: " << ze0 ;
+
+        //Конечные координаты захвата Е
+        gamma = gamma0;
+        xek = 300;
+        yek = 1500;
+        zek = -100;
+
+        //Определяем углы psi1, gamma
+        psi1 = asin(-alpha_23*sin(gamma) + alpha_13*cos(gamma));
+        psi2 = asin(-alpha_23*sin(gamma) - alpha_13*cos(gamma));
+        alpha = asin(alpha_33 / cos(psi1));
+        gamma1 = atan((-xek) / yek);
+
+        qDebug() << "psi1: " << psi1 ;
+        qDebug() << "psi2: " << psi2 ;
+        qDebug() << "alpha: " << alpha ;
+        qDebug() << "gamma1: " << gamma1 ;
+
+        xmk = xek - b*alpha_13 + a*cos(alpha)*sin(gamma1);
+        ymk = yek - b*alpha_23 - a*cos(alpha)*cos(gamma1);
+        zmk = zek - b*alpha_33 - a*sin(alpha);
+
+        qDebug() << "xmk: " << xmk ;
+        qDebug() << "ymk: " << ymk ;
+        qDebug() << "zmk: " << zmk ;
+
+        //Оптимизация угла фи
+
+        OK = y_0;
+        OA = za;
+        OB = xb;
+        DK = zd;
+        OA1 = za;
+
+  //fi_angle = RungeKutta4(0.0,0.0,1,(fi[0],fi[1]));
+        qDebug()<<"fi angle"<<fi_angle;
+        //expected 0.072
+        qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
+        fi_angle=0.072;
+
+
+        //рассчет lk
+        double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
+        double l2k = sqrt((xmk-xb)*(xmk-xb)+ymk*ymk+zmk*zmk);
+        double l3k = sqrt((xmk+xb)*(xmk*xb)+ymk*ymk+zmk*zmk);
+        double l4k = sqrt(pow(OK-OA*sin(fi_angle),2.0)+pow(OA*cos(fi_angle)-DK,2.0));
+        this->set_lk(l1k,l2k,l3k,l4k);
+
+        //Рассчет времени
+        ptrTime[0] = abs(l1k-l1)/Vmax;
+        ptrTime[1] = abs(l2k-l2)/Vmax;
+        ptrTime[2] = abs(l3k-l3)/Vmax;
+        ptrTime[3] = abs(l4k-l4)/Vmax;
+        double Tlk = ManipCalculations::findMax(ptrTime,4);
+
+        qDebug()<<"Max time is "<<Tlk;
+
+        //рассчет координат
+        double dx = xmk-xm0;
+        double dy = ymk-ym0;
+        double dz = zmk-zm0;
+
+        double k1 = dy/dx;
+        double k2 = dz/dx;
+        double k3 = dz/dy;
+
+        qDebug()<< "k1 "<<k1;
+        qDebug()<< "k2 "<<k2;
+        qDebug()<<"k3 "<<k3;
+
+        double kx = sqrt(1+k1*k1+k2*k2);
+        double ky = sqrt(1+(1/k1)*(1/k1)+k3*k3);
+        double kz = sqrt(1+(1/k2)*(1/k2)+(1/k3)*(1/k3));
+
+        qDebug()<<"D = "<<((1/(kx*kx))+(1/(ky*ky))+(1/(kz*kz)))<<"; Should be 1";
+
+        double Skx = sqrt(1+k1*k1+k2*k2)*(xmk-xm0);
+        double Sky = sqrt(1+((1/(k1*k1))+(k3*k3)))*(ymk-ym0);
+        double Skz = sqrt(1+((1/(k1*k1))+(1/(k3*k3))))*(zmk-zm0);
+
+        qDebug()<<"Skx: "<<Skx;
+        qDebug()<<"Sky: "<<Sky;
+        qDebug()<<"Skz: "<<Skz;
+
+        //Se: 0 - x; 1 - y; 2 - z;
+
+    #pragma omp for{
+        for(int i = 0; i<4;i++){
+            tau[i]=(i+1)/Tlk;
+            //qDebug<"tau = "<<tau[i];
+        }
+}
+#pragma omp for{
+
+        for(int i=0;i<4;i++){
+            Sx[i]=Skx*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+            Sy[i]=Sky*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+            Sz[i]=Skz*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
+            //---------------------------//
+            ptrXP[i]=(Sx[i]+xm0*kx)/kx;
+            ptrYP[i]=(Sy[i]+ym0*ky)/ky;
+            ptrZP[i]=(Sz[i]+zm0*kz)/kz;
+
+            qDebug()<<"X["<<i<<"]: "<<ptrXP[i];
+            qDebug()<<"Y["<<i<<"]: "<<ptrYP[i];
+            qDebug()<<"Z["<<i<<"]: "<<ptrZP[i];
+        }
+}
+
 }
 
 void ManipCalculations::calculatuons() {
@@ -245,8 +382,6 @@ void ManipCalculations::calculatuons() {
         qDebug()<<"Y["<<i<<"]: "<<ptrYP[i];
         qDebug()<<"Z["<<i<<"]: "<<ptrZP[i];
     }
-
-    _getch();
 }
 void ManipCalculations::quickSortR(double *a, int N){
     int i = 0, j= N-1;
