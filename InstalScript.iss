@@ -37,6 +37,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "C:\Users\devja\Documents\build-ManipQT-Desktop_Qt_5_11_0_MinGW_32bit-Release\release\ManipQT.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\devja\Documents\build-ManipQT-Desktop_Qt_5_11_0_MinGW_32bit-Release\release\ManipQT.exe"; DestDir: "{win}"; Flags: ignoreversion
 Source: "C:\Users\devja\Documents\ManipQT\img\*"; DestDir: "{win}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\devja\Documents\ManipQT\logo\*"; DestDir: "{win}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "G:\Qt\Qt5.11.0\5.11.0\mingw53_32\bin\Qt5Core.dll"; DestDir: "{win}"; Flags: ignoreversion
 Source: "G:\Qt\Qt5.11.0\5.11.0\mingw53_32\bin\Qt5Gui.dll"; DestDir: "{win}"; Flags: ignoreversion
 Source: "G:\Qt\Qt5.11.0\5.11.0\mingw53_32\bin\Qt5Widgets.dll"; DestDir: "{win}"; Flags: ignoreversion
