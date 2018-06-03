@@ -6,10 +6,12 @@
 #include <QDialog>
 #include <QWidget>
 #include <QMessageBox>
+#include <QTime>
 
 #include "data_saver.h"
 #include "manipcalculations.h"
 #include "omp_settings.h"
+#include "about.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +25,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     omp_settings settings;
+    about about_window;
 
 private slots:
     void on_Calculate_pushButton_clicked();
@@ -32,6 +35,8 @@ private slots:
     void on_actionXML_triggered();
 
     void on_action_OpenMP_triggered();
+
+    void on_action_about_triggered();
 
 private:
     Ui::MainWindow *ui;

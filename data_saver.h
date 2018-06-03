@@ -19,6 +19,7 @@ public:
     QString get_data(bool type, ManipCalculations item, QFile file);
     void set_filename(QString filename);
     QString get_filename();
+    QString get_full_results_txt(ManipCalculations item);
 private:
     QString path;
     QString filename;

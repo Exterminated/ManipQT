@@ -41,7 +41,8 @@ SOURCES += \
     alglib/statistics.cpp \
     manipcalculations.cpp \
     data_saver.cpp \
-    omp_settings.cpp
+    omp_settings.cpp \
+    about.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -61,11 +62,13 @@ HEADERS += \
     alglib/stdafx.h \
     manipcalculations.h \
     data_saver.h \
-    omp_settings.h
+    omp_settings.h \
+    about.h
 
 FORMS += \
         mainwindow.ui \
-    omp_settings.ui
+    omp_settings.ui \
+    about.ui
 
 RESOURCES += \
     resourses.qrc
@@ -73,3 +76,5 @@ RESOURCES += \
 QMAKE_LIBS+=-static -lgomp -lpthread
 QMAKE_CXXFLAGS+=-fopenmp
 QMAKE_LFLAGS += -fopenmp
+QMAKE_CFLAGS_DEBUG += -fopenmp
+#QMAKE_CFLAGS_RELEASE += -fopenmp

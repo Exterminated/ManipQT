@@ -13,6 +13,9 @@
 #include <iostream>
 #include <QDebug>
 #include <omp.h>
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 using namespace std;
 using namespace alglib;
@@ -66,6 +69,8 @@ class ManipCalculations
   double *ptrXP = XP;
   double *ptrYP = YP;
   double *ptrZP = ZP;
+
+  double calculatuons_time = 0.0;
 
   protected:
   /*список средств, доступных при наследовании*/

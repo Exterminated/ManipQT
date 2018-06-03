@@ -49,6 +49,8 @@ void MainWindow::on_Calculate_pushButton_clicked()
         manipcalculations.openmp_calculations();
     }
     menue_visible(true);
+
+    ui->Result_textBrowser->append(data_saver.get_full_results_txt(manipcalculations)+"Calculated at "+QTime::currentTime().toString("H:mm:ss")+" for "+QString::number(manipcalculations.calculatuons_time)+" ms"+"\n");
 }
 
 void MainWindow::on_actionTXT_triggered()
@@ -135,4 +137,10 @@ void MainWindow::on_action_OpenMP_triggered()
     qDebug()<<"Threads"<<settings.num_threads;
     qDebug()<<"Deapth"<<settings.deapth;
     qDebug()<<"Dynamic"<<settings.dynamic;
+}
+
+void MainWindow::on_action_about_triggered()
+{
+    about_window.setModal(true);
+    about_window.exec();
 }

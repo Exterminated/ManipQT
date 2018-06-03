@@ -12,4 +12,8 @@
         <file>img/xls.png</file>
         <file>img/xml.png</file>
     </qresource>
+    <qresource prefix="/logo" lang="rus">
+        <file>logo/industrial-robot.png</file>
+        <file>logo/guide.png</file>
+    </qresource>
 </RCC>

@@ -50,6 +50,10 @@ void ManipCalculations::set_omp_settings(int num,int dynamic,int deapth){
     this->ptrsettings[2]=deapth;
 }
 void ManipCalculations::openmp_calculations(){
+    using namespace std::chrono;
+
+
+    //std::cout << nanos << '\n';
     omp_set_dynamic(ptrsettings[1]);
     omp_set_num_threads(ptrsettings[0]);
     omp_set_nested(ptrsettings[2]);
@@ -64,8 +68,8 @@ void ManipCalculations::openmp_calculations(){
         qWarning("Compiled by an OpenMP-compliant implementation.\n");
         qWarning("The result of omp_get_num_threads %i\n", omp_get_num_threads());
     #endif
-
-#pragma omp parallel{}
+    auto now = high_resolution_clock::now();
+#pragma omp parallel
         //Начальные координаты точки М и длина 4 звена
         l4 = sqrt((za*sin(M_PI_2 - fi_angle) - OO1)*(za*sin(M_PI_2 - fi_angle) - OO1) + (yb - za*cos(M_PI_2 - fi_angle))*(yb - za*cos(M_PI_2 - fi_angle)));
         A = 0.5*l2*l2 + 0.5*l3*l3 - l1*l1;
@@ -127,13 +131,15 @@ void ManipCalculations::openmp_calculations(){
         //expected 0.072
         qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
         fi_angle=0.072;
-
-
         //рассчет lk
         double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
         double l2k = sqrt((xmk-xb)*(xmk-xb)+ymk*ymk+zmk*zmk);
         double l3k = sqrt((xmk+xb)*(xmk*xb)+ymk*ymk+zmk*zmk);
         double l4k = sqrt(pow(OK-OA*sin(fi_angle),2.0)+pow(OA*cos(fi_angle)-DK,2.0));
+        qDebug()<<"l1k: "<<l1k;
+        qDebug()<<"l2k: "<<l2k;
+        qDebug()<<"l3k: "<<l3k;
+        qDebug()<<"l4k: "<<l4k;
         this->set_lk(l1k,l2k,l3k,l4k);
 
         //Рассчет времени
@@ -174,14 +180,13 @@ void ManipCalculations::openmp_calculations(){
 
         //Se: 0 - x; 1 - y; 2 - z;
 
-    #pragma omp for{
+#pragma omp for
         for(int i = 0; i<4;i++){
             tau[i]=(i+1)/Tlk;
             //qDebug<"tau = "<<tau[i];
         }
-}
-#pragma omp for{
 
+#pragma omp for
         for(int i=0;i<4;i++){
             Sx[i]=Skx*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
             Sy[i]=Sky*(10.0*pow(tau[i],3.0)-15.0*pow(tau[i],4)+6.0*pow(tau[i],5.0));
@@ -195,11 +200,14 @@ void ManipCalculations::openmp_calculations(){
             qDebug()<<"Y["<<i<<"]: "<<ptrYP[i];
             qDebug()<<"Z["<<i<<"]: "<<ptrZP[i];
         }
-}
 
+        auto seconds = duration_cast<milliseconds>(now.time_since_epoch()).count();
+        this->calculatuons_time=seconds;
+        qDebug()<<"Time of work"<<calculatuons_time;
 }
 
 void ManipCalculations::calculatuons() {
+    using namespace std::chrono;
     real_1d_array x = "[0,0]";
     //double epsg = 0.0000000001;
     double epsg = 0.002;
@@ -209,20 +217,7 @@ void ManipCalculations::calculatuons() {
     minlmstate state;
     minlmreport rep;
 
-    //Исходные конструктивные данные
-//    xb = 355.0;
-//    y_0 = 755.0;
-//    za = 750.0;
-//    xc = -355.0;
-//    yb = y_0;
-//    zd = -40.0;
-//    O1A = za;
-//    OA1 = 750.0;
-//    l1 = 1400.0;
-//    l2 = 1500.0;
-//    l3 = 1352.0;
-//    fi_angle = 0.323;
-//    OO1 = zd;
+    auto now = high_resolution_clock::now();
 
     //Начальные координаты точки М и длина 4 звена
     l4 = sqrt((za*sin(M_PI_2 - fi_angle) - OO1)*(za*sin(M_PI_2 - fi_angle) - OO1) + (yb - za*cos(M_PI_2 - fi_angle))*(yb - za*cos(M_PI_2 - fi_angle)));
@@ -238,13 +233,6 @@ void ManipCalculations::calculatuons() {
     qDebug() << "zm0: " << zm0 ;
     qDebug() << "gamma0: " << gamma0 ;
     //Начальные координаты захвата E, направляющих косинусов, зависящих от тех.процесса
-//    alpha_0 = 0;
-//    alpha_23 = 1;
-//    a = 90;
-//    alpha_13 = 0;
-//    alpha_33 = 0;
-//    b = 220;
-
     xe0 = xm0 + b*alpha_13 - a*cos(alpha_0)*sin(gamma0);
     ye0 = ym0 + b*alpha_23 + a*cos(alpha_0)*cos(gamma0);
     ze0 = zm0 + b*alpha_33 + a*sin(alpha_0);
@@ -304,12 +292,15 @@ void ManipCalculations::calculatuons() {
     qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
     fi_angle=0.072;
 
-
     //рассчет lk
     double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
     double l2k = sqrt((xmk-xb)*(xmk-xb)+ymk*ymk+zmk*zmk);
     double l3k = sqrt((xmk+xb)*(xmk*xb)+ymk*ymk+zmk*zmk);
     double l4k = sqrt(pow(OK-OA*sin(fi_angle),2.0)+pow(OA*cos(fi_angle)-DK,2.0));
+    qDebug()<<"l1k: "<<l1k;
+    qDebug()<<"l2k: "<<l2k;
+    qDebug()<<"l3k: "<<l3k;
+    qDebug()<<"l4k: "<<l4k;
     this->set_lk(l1k,l2k,l3k,l4k);
 
     //Рассчет времени   
@@ -382,6 +373,10 @@ void ManipCalculations::calculatuons() {
         qDebug()<<"Y["<<i<<"]: "<<ptrYP[i];
         qDebug()<<"Z["<<i<<"]: "<<ptrZP[i];
     }
+    auto seconds = duration_cast<milliseconds>(now.time_since_epoch()).count();
+    this->calculatuons_time=seconds;
+    //qDebug()<<"aouto seconds"<<seconds;
+    qDebug()<<"Time of work"<<calculatuons_time;
 }
 void ManipCalculations::quickSortR(double *a, int N){
     int i = 0, j= N-1;
@@ -405,7 +400,7 @@ void ManipCalculations::quickSortR(double *a, int N){
 }
 double ManipCalculations::findMax(double* a, int N){
     double max = 0.0;
-    for(int i=0;i<0;i++){
+    for(int i=0;i<N;i++){
         if(a[i]>max) max=a[i];
     }
     return max;
