@@ -6,7 +6,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include "alglib\optimization.h"
+
 #include "cmath"
 #include "omp_settings.h"
 #include <conio.h>
@@ -16,6 +16,7 @@
 #include <ctime>
 #include <ratio>
 #include <chrono>
+#include "alglib\optimization.h"
 
 using namespace std;
 using namespace alglib;
@@ -33,7 +34,7 @@ class ManipCalculations
   double OK, OA, OB, DK, Imin;
 
   double RungeKutta4(double x, double y,double h,double f(double,double));
-  double f(double x, double y);
+  double f(double fi);
 
   double lk[4];
   double Time[4];

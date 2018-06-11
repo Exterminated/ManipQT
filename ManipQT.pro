@@ -22,7 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
+SUBDIRS += tests
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
@@ -42,7 +42,8 @@ SOURCES += \
     manipcalculations.cpp \
     data_saver.cpp \
     omp_settings.cpp \
-    about.cpp
+    about.cpp \
+    splain_calculations.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -63,7 +64,8 @@ HEADERS += \
     manipcalculations.h \
     data_saver.h \
     omp_settings.h \
-    about.h
+    about.h \
+    splain_calculations.h
 
 FORMS += \
         mainwindow.ui \

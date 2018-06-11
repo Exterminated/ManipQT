@@ -49,6 +49,17 @@ void ManipCalculations::set_omp_settings(int num,int dynamic,int deapth){
     this->ptrsettings[1]=dynamic;
     this->ptrsettings[2]=deapth;
 }
+void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
+{
+    // this callback calculates
+
+    fi[0] = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0);
+    fi[1] = pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0);
+
+    //fi[0] = 10 * pow(x[0] + 3, 2);
+    //fi[1] = pow(x[1] - 3, 2);
+
+}
 void ManipCalculations::openmp_calculations(){
     using namespace std::chrono;
 
@@ -84,6 +95,7 @@ void ManipCalculations::openmp_calculations(){
         qDebug() << "zm0: " << zm0 ;
         qDebug() << "gamma0: " << gamma0 ;
 
+        a=alpha;
         //Начальные координаты захвата E, направляющих косинусов, зависящих от тех.процесса
         xe0 = xm0 + b*alpha_13 - a*cos(alpha_0)*sin(gamma0);
         ye0 = ym0 + b*alpha_23 + a*cos(alpha_0)*cos(gamma0);
@@ -127,9 +139,10 @@ void ManipCalculations::openmp_calculations(){
         OA1 = za;
 
   //fi_angle = RungeKutta4(0.0,0.0,1,(fi[0],fi[1]));
+        fi_angle=0.072;
         qDebug()<<"fi angle"<<fi_angle;
         //expected 0.072
-        qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
+        //qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
         fi_angle=0.072;
         //рассчет lk
         double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
@@ -208,14 +221,15 @@ void ManipCalculations::openmp_calculations(){
 
 void ManipCalculations::calculatuons() {
     using namespace std::chrono;
-    real_1d_array x = "[0,0]";
-    //double epsg = 0.0000000001;
-    double epsg = 0.002;
-    double epsf = 0;
-    double epsx = 0;
-    ae_int_t maxits = 0;
-    minlmstate state;
-    minlmreport rep;
+//    real_1d_array x = "[0,0]";
+//    real_1d_array fi = "[0,0]";
+//    //double epsg = 0.0000000001;
+//    double epsg = 0.002;
+//    double epsf = 0;
+//    double epsx = 0;
+//    ae_int_t maxits = 0;
+//    minlmstate state;
+//    minlmreport rep;
 
     auto now = high_resolution_clock::now();
 
@@ -232,6 +246,7 @@ void ManipCalculations::calculatuons() {
     qDebug() << "ym0: " << ym0 ;
     qDebug() << "zm0: " << zm0 ;
     qDebug() << "gamma0: " << gamma0 ;
+    a=alpha;
     //Начальные координаты захвата E, направляющих косинусов, зависящих от тех.процесса
     xe0 = xm0 + b*alpha_13 - a*cos(alpha_0)*sin(gamma0);
     ye0 = ym0 + b*alpha_23 + a*cos(alpha_0)*cos(gamma0);
@@ -279,18 +294,27 @@ void ManipCalculations::calculatuons() {
 //    minlmoptimize(state, function1_fvec);
 //    minlmresults(state, x, rep);
 
-    //Imin = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi))*(ymk + OA1*sin(fi)) + ((zmk - OA1*cos(fi))*(zmk - OA1*cos(fi))))) - l1), 2.0) + pow((sqrt((OK - OA1*sin(fi))*(OK - OA1*sin(fi)) + (OA1*cos(fi) - DK)*(OA1*cos(fi) - DK)) - l4), 2.0);
+//    Imin = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0) + pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0);
 
 //    qDebug() <<"terminationtype: "<< int(rep.terminationtype);
 //    qDebug() <<"x: "<< x.tostring(2).c_str();
-
-
+//    fi_angle=0.0;
+//    qDebug()<<"fi angle"<<fi_angle;
+//    do{
+//        Imin = ManipCalculations::f(fi_angle);
+//        qDebug()<<"Imin"<<Imin;
+//        fi_angle+=0.001;
+//        qDebug()<<"fi angle"<<fi_angle;
+//    }while(Imin!=38149.4);
+    fi_angle=0.072;
+    Imin = ManipCalculations::f(fi_angle);
+    qDebug()<<"Imin"<<Imin;
 
     //fi_angle = RungeKutta4(0.0,0.0,1,(fi[0],fi[1]));
     qDebug()<<"fi angle"<<fi_angle;
     //expected 0.072
-    qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
-    fi_angle=0.072;
+    //qDebug()<<"function f"<<ManipCalculations::f(0.0,0.0);
+    //fi_angle=0.072;
 
     //рассчет lk
     double l1k = sqrt(xmk*xmk+pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0));
@@ -405,17 +429,7 @@ double ManipCalculations::findMax(double* a, int N){
     }
     return max;
 }
-void ManipCalculations::function1_fvec(const real_1d_array &x, real_1d_array &fi, void *ptr)
-{
-    // this callback calculates
 
-    fi[0] = pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0);
-    fi[1] = pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0);
-
-    //fi[0] = 10 * pow(x[0] + 3, 2);
-    //fi[1] = pow(x[1] - 3, 2);
-
-}
 //***************************************************************
 
             //** Метод Рунге-Кутта 4-го порядка точности.
@@ -434,15 +448,18 @@ double ManipCalculations::RungeKutta4(double x, double y,double h,double f(doubl
   return(y+(k1+2*k2+2*k3+k4)/6);
 }
 
-double ManipCalculations::f(double x, double y){
+double ManipCalculations::f(double fi){
 //    double fi[2] = {
 //        (double)pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi_angle))*(ymk + OA1*sin(fi_angle)) + ((zmk - OA1*cos(fi_angle))*(zmk - OA1*cos(fi_angle))))) - l1), 2.0),
 //        (double)pow((sqrt((OK - OA1*sin(fi_angle))*(OK - OA1*sin(fi_angle)) + (OA1*cos(fi_angle) - DK)*(OA1*cos(fi_angle) - DK)) - l4), 2.0)
 //    };
-    double denominator_1, numerator_1, denominator_2, numerator_2;
-    denominator_1 = (2.0*OA1*cos(fi_angle)*(ymk+OA1*sin(fi_angle))+2.0*OA1*sin(fi_angle)*(zmk-OA1*cos(fi_angle)))*(l1-sqrt(pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0)));
-    numerator_1 = sqrt(pow(ymk+OA1*sin(fi_angle),2.0)+pow(zmk-OA1*cos(fi_angle),2.0)+xmk*xmk);
-    denominator_2 = (l4-sqrt(pow(DK-OA1*cos(fi_angle),2.0)+pow(OK-OA1*sin(fi_angle),2.0)))*(2*OA1*sin(fi_angle)*(DK-OA1*cos(fi_angle))-2.0*OA1*cos(fi_angle)*(OK-OA1*sin(fi_angle)));
-    numerator_2 = sqrt(pow(DK-OA1*cos(fi_angle),2.0)+pow(OK-OA1*sin(fi_angle),2.0));
-    return (denominator_1/numerator_1)+(denominator_2/numerator_2);
+//    double denominator_1, numerator_1, denominator_2, numerator_2;
+//    denominator_1 = (2.0*OA1*cos(fi)*(ymk+OA1*sin(fi))+2.0*OA1*sin(fi)*(zmk-OA1*cos(fi)))*(l1-sqrt(pow(ymk+OA1*sin(fi),2.0)+pow(zmk-OA1*cos(fi),2.0)));
+//    numerator_1 = sqrt(pow(ymk+OA1*sin(fi),2.0)+pow(zmk-OA1*cos(fi),2.0)+xmk*xmk);
+//    denominator_2 = (l4-sqrt(pow(DK-OA1*cos(fi),2.0)+pow(OK-OA1*sin(fi),2.0)))*(2*OA1*sin(fi)*(DK-OA1*cos(fi))-2.0*OA1*cos(fi)*(OK-OA1*sin(fi)));
+//    numerator_2 = sqrt(pow(DK-OA1*cos(fi),2.0)+pow(OK-OA1*sin(fi),2.0));
+//    return (-(denominator_1/numerator_1)-(denominator_2/numerator_2));
+    double f1 = (double)pow((sqrt((xmk*xmk + (ymk + OA1*sin(fi))*(ymk + OA1*sin(fi)) + ((zmk - OA1*cos(fi))*(zmk - OA1*cos(fi))))) - l1), 2.0);
+    double f2 = (double)pow((sqrt((OK - OA1*sin(fi))*(OK - OA1*sin(fi)) + (OA1*cos(fi) - DK)*(OA1*cos(fi) - DK)) - l4), 2.0);
+    return f1+f2;
 }
